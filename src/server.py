@@ -66,6 +66,24 @@ def search_records(table_name: str, search_column: str, search_value: str) -> st
     except Exception as e:
         return f"Database Error: {str(e)}"
 
+@mcp.tool()
+def list_tables() -> str:
+    """Lists all available tables in the legacy vault so the AI knows what to query."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = [row[0] for row in cursor.fetchall()]
+    conn.close()
+    return f"Available Tables: {', '.join(tables)}"
+
+@mcp.tool()
+def list_columns(table_name: str) -> str:
+    """Lists all column names for a specific table so the AI knows what it can search by."""
+    if not is_valid_table(table_name):
+        return "Error: Invalid table."
+    cols = get_allowed_columns(table_name)
+    return f"Columns in {table_name}: {', '.join(cols)}"
+
 
 if __name__ == "__main__":
     mcp.run()
