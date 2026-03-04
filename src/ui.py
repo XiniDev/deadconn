@@ -81,6 +81,16 @@ with st.sidebar:
         tables = list_tables()
         st.session_state['tables_list'] = tables
 
+    st.divider()
+    st.header("📋 Schema Explorer")
+    if st.button("🔍 Inspect All Tables", use_container_width=True):
+        tables_str = list_tables()
+        tables = tables_str.replace("Available Tables: ", "").split(", ")
+        for table in tables:
+            with st.expander(f"Table: {table}"):
+                cols = list_columns(table)
+                st.write(f"**Columns:** {cols}")
+
 
 if 'active_db_selection' in st.session_state and st.session_state.active_db_selection in existing_files:
     st.info(f"Connected to: **{st.session_state.active_db_selection}**")
