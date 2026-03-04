@@ -1,6 +1,6 @@
-# 🛡️ DBridger
+# 🌉 DBridger
 
-**The Secure Legacy-to-AI Gateway.** DBridger bridges the gap between old-world databases and modern AI Agents (Claude, ChatGPT, etc.) using the Model Context Protocol (MCP).
+**The Secure Legacy AI Gateway.** DBridger bridges the gap between old-world databases and modern AI Agents (Claude, ChatGPT, etc.) using the Model Context Protocol (MCP).
 
 ## 🚀 Features
 
