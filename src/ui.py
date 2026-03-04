@@ -1,6 +1,5 @@
 import streamlit as st
 import os
-import shutil
 from src.server import search_records, list_tables, list_columns
 
 st.set_page_config(page_title="DBridger", page_icon="🌉", layout="wide")
