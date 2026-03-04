@@ -53,7 +53,7 @@ npm run inspect
 
 ---
 
-## 🛡️ The "DeadConn" Moat
+## 🛡️ How DeadConn protects your data
 
 Unlike standard SQL wrappers, DeadConn keeps your data safe by treating external AIs as untrusted entities.
 
