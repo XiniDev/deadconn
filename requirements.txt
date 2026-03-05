@@ -1,3 +1,4 @@
 fastmcp
 python-dotenv
 PyQt6
+google-genai

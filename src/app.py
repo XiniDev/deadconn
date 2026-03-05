@@ -9,6 +9,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
 
 from src.server import search_records, list_tables, list_columns
+from src.agent import DBridgerAgent
 
 APP_STYLE = """
     QWidget {
@@ -154,6 +155,14 @@ class AIAgentWidget(QWidget):
         super().__init__()
         layout = QVBoxLayout(self)
 
+        api_layout = QHBoxLayout()
+        api_layout.addWidget(QLabel("Developer API Key:"))
+        self.inp_api_key = QLineEdit()
+        self.inp_api_key.setEchoMode(QLineEdit.EchoMode.Password)
+        self.inp_api_key.setPlaceholderText("Paste Gemini API Key here for testing...")
+        api_layout.addWidget(self.inp_api_key)
+        layout.addLayout(api_layout)
+
         layout.addWidget(QLabel("The AI Agent will automatically navigate tables to solve queries."))
 
         self.inp_query = QLineEdit()
@@ -173,11 +182,24 @@ class AIAgentWidget(QWidget):
 
     def run_ai_agent(self):
         query = self.inp_query.text().strip()
+        api_key = self.inp_api_key.text().strip()
+
         if not query: return
+        if not api_key:
+            QMessageBox.warning(self, "API Key Missing", "Please enter your Gemini API key to test the agent.")
+            return
 
         self.txt_agent_output.append(f"👤 You: {query}")
         self.inp_query.clear()
-        self.txt_agent_output.append("🤖 Agent: Thinking... (FUTURE IMPLEMENTATION)\n")
+
+        self.txt_agent_output.append("🤖 Agent: Thinking... (Running tools locally)\n")
+        QApplication.processEvents() 
+
+        agent = DBridgerAgent(api_key)
+
+        answer = agent.ask_question(query)
+
+        self.txt_agent_output.append(f"🤖 DBridger:\n{answer}\n{'-'*40}")
 
 class DBridgerApp(QMainWindow):
     """The main window that coordinates all sub-components."""
